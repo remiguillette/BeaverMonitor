@@ -1,6 +1,7 @@
 import { useAllRegionsTraffic, TrafficData } from "@/hooks/useTraffic";
 import { Car, AlertCircle, Construction, AlertTriangle, Info } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useState, useEffect } from "react";
 
 export default function TrafficPanel() {
   const { 
@@ -11,6 +12,25 @@ export default function TrafficPanel() {
     isLoading, 
     isError 
   } = useAllRegionsTraffic();
+  
+  const regions = ["GTA Toronto", "Toronto", "Hamilton", "Niagara Region"];
+  const [currentRegionIndex, setCurrentRegionIndex] = useState(0);
+  const [fadeState, setFadeState] = useState<'in' | 'out'>('in');
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Start fade out
+      setFadeState('out');
+      
+      // After fade out, change region and fade in
+      setTimeout(() => {
+        setCurrentRegionIndex((prevIndex) => (prevIndex + 1) % regions.length);
+        setFadeState('in');
+      }, 500); // 500ms for fade out
+    }, 8000); // Change every 8 seconds
+    
+    return () => clearInterval(interval);
+  }, []);
 
   const getIncidentIcon = (type: string) => {
     switch (type) {
@@ -43,10 +63,10 @@ export default function TrafficPanel() {
   const renderTrafficCard = (data: TrafficData | undefined, region: string) => {
     if (isLoading) {
       return (
-        <div className="bg-[#1e1e1e] mb-6 p-5 rounded-lg border border-[#333333]">
+        <div className="w-full h-full">
           <h3 className="text-2xl font-medium mb-4">{region}</h3>
           <div className="space-y-4">
-            {[...Array(3)].map((_, i) => (
+            {[...Array(5)].map((_, i) => (
               <Skeleton key={i} className="h-20 w-full" />
             ))}
           </div>
@@ -56,7 +76,7 @@ export default function TrafficPanel() {
 
     if (isError || !data) {
       return (
-        <div className="bg-[#1e1e1e] mb-6 p-5 rounded-lg border border-[#333333]">
+        <div className="w-full h-full">
           <h3 className="text-2xl font-medium mb-4">{region}</h3>
           <div className="text-red-500">Impossible de charger les données de circulation.</div>
         </div>
@@ -64,10 +84,10 @@ export default function TrafficPanel() {
     }
 
     return (
-      <div className="bg-[#1e1e1e] mb-6 p-5 rounded-lg border border-[#333333]">
+      <div className="w-full h-full">
         <h3 className="text-2xl font-medium mb-4">{region}</h3>
         
-        <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2 traffic-incidents">
+        <div className="space-y-4 max-h-[450px] overflow-y-auto pr-2 traffic-incidents">
           {data.incidents && data.incidents.length > 0 ? (
             data.incidents.map((incident, index) => (
               <div key={index} className={`border-l-4 ${getSeverityBorderColor(incident.severity)} pl-3 py-2 bg-[#252525] transition-all duration-200 hover:bg-[#2a2a2a] rounded-r`}>
@@ -86,17 +106,48 @@ export default function TrafficPanel() {
     );
   };
 
-  return (
-    <div className="bg-[#1e1e1e] p-6 flex flex-col overflow-y-auto border border-[#333333] rounded-lg">
-      <h2 className="text-3xl text-white font-bold mb-6 flex items-center">
-        <Car className="text-primary mr-3" />
-        Circulation
-      </h2>
+  // Helper function to get the current region data
+  const getCurrentRegionData = () => {
+    const currentRegion = regions[currentRegionIndex];
+    switch (currentRegion) {
+      case "GTA Toronto":
+        return { data: gtaTorontoTraffic, displayName: "GTA Toronto" };
+      case "Toronto":
+        return { data: torontoTraffic, displayName: "Toronto" };
+      case "Hamilton":
+        return { data: hamiltonTraffic, displayName: "Hamilton" };
+      case "Niagara Region":
+        return { data: niagaraRegionTraffic, displayName: "Région de Niagara" };
+      default:
+        return { data: gtaTorontoTraffic, displayName: "GTA Toronto" };
+    }
+  };
 
-      {renderTrafficCard(gtaTorontoTraffic as TrafficData, "GTA Toronto")}
-      {renderTrafficCard(torontoTraffic as TrafficData, "Toronto")}
-      {renderTrafficCard(hamiltonTraffic as TrafficData, "Hamilton")}
-      {renderTrafficCard(niagaraRegionTraffic as TrafficData, "Région de Niagara")}
+  const { data, displayName } = getCurrentRegionData();
+  
+  return (
+    <div className="bg-[#1e1e1e] p-6 flex flex-col border border-[#333333] rounded-lg h-full">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl text-white font-bold flex items-center">
+          <Car className="text-primary mr-3" />
+          Circulation
+        </h2>
+        
+        <div className="flex space-x-2">
+          {regions.map((_, idx) => (
+            <div 
+              key={idx} 
+              className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                idx === currentRegionIndex ? 'bg-primary scale-125' : 'bg-gray-600'
+              }`} 
+            />
+          ))}
+        </div>
+      </div>
+      
+      <div className={`transition-opacity duration-500 flex-1 ${fadeState === 'in' ? 'opacity-100' : 'opacity-0'}`}>
+        {renderTrafficCard(data as TrafficData, displayName)}
+      </div>
     </div>
   );
 }
