@@ -7,6 +7,16 @@ import { monitorServer, getSystemStatus } from "./services/serverMonitorService"
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Weather API endpoints
+  app.get('/api/weather/alerts', async (req, res) => {
+    try {
+      const alerts = await storage.getActiveWeatherAlerts();
+      res.json(alerts);
+    } catch (error) {
+      console.error('Error fetching weather alerts:', error);
+      res.status(500).json({ message: 'Erreur lors de la récupération des alertes météo' });
+    }
+  });
+
   app.get('/api/weather/:city', async (req, res) => {
     try {
       const city = req.params.city;
@@ -15,16 +25,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(`Error fetching weather for ${req.params.city}:`, error);
       res.status(500).json({ message: `Erreur lors de la récupération des données météo pour ${req.params.city}` });
-    }
-  });
-
-  app.get('/api/weather/alerts', async (req, res) => {
-    try {
-      const alerts = await storage.getActiveWeatherAlerts();
-      res.json(alerts);
-    } catch (error) {
-      console.error('Error fetching weather alerts:', error);
-      res.status(500).json({ message: 'Erreur lors de la récupération des alertes météo' });
     }
   });
 
