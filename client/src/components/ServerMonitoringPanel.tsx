@@ -132,8 +132,12 @@ export default function ServerMonitoringPanel() {
 
     return (
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 min-h-[240px]">
           {visibleServers.map((server) => renderServerCard(server))}
+          {/* Add empty placeholder cards if needed */}
+          {Array.from({ length: Math.max(0, 4 - visibleServers.length) }).map((_, i) => (
+            <div key={`placeholder-${i}`} className="bg-[#1e1e1e] p-4 rounded-lg border border-[#333333] opacity-0" />
+          ))}
         </div>
         <div className="flex justify-center space-x-1">
           {Array.from({ length: Math.ceil(serverStatusData.length / 4) }).map((_, i) => (
