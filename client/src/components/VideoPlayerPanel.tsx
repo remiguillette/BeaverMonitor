@@ -134,8 +134,7 @@ export default function VideoPlayerPanel() {
   return (
     <div className="bg-[#1e1e1e] p-4 flex flex-col border border-[#333333] rounded-lg h-full">
       <div className="flex justify-between items-center mb-2">
-        <h2 className="text-2xl text-white font-bold flex items-center">
-          <Film className="text-primary mr-2" />
+        <h2 className="text-2xl text-white font-bold">
           Caméras de circulation
         </h2>
         
