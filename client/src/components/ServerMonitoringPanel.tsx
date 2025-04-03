@@ -99,10 +99,24 @@ export default function ServerMonitoringPanel() {
   };
 
   const renderServerGrid = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+      if (!isLoadingServerStatus && serverStatusData && Array.isArray(serverStatusData)) {
+        const interval = setInterval(() => {
+          setCurrentIndex((prevIndex) => 
+            (prevIndex + 4) >= serverStatusData.length ? 0 : prevIndex + 4
+          );
+        }, 3000); // Change every 3 seconds
+
+        return () => clearInterval(interval);
+      }
+    }, [isLoadingServerStatus, serverStatusData]);
+
     if (isLoadingServerStatus) {
       return (
         <div className="grid grid-cols-2 gap-4">
-          {[...Array(10)].map((_, i) => (
+          {[...Array(4)].map((_, i) => (
             <Skeleton key={i} className="h-24 w-full" />
           ))}
         </div>
@@ -113,9 +127,23 @@ export default function ServerMonitoringPanel() {
       return <div className="text-red-500">Impossible de charger les données des serveurs.</div>;
     }
 
+    const visibleServers = serverStatusData.slice(currentIndex, currentIndex + 4);
+
     return (
-      <div className="grid grid-cols-2 gap-4">
-        {serverStatusData.map((server) => renderServerCard(server))}
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          {visibleServers.map((server) => renderServerCard(server))}
+        </div>
+        <div className="flex justify-center space-x-1">
+          {Array.from({ length: Math.ceil(serverStatusData.length / 4) }).map((_, i) => (
+            <div
+              key={i}
+              className={`h-1.5 w-4 rounded-full transition-all ${
+                Math.floor(currentIndex / 4) === i ? 'bg-primary' : 'bg-gray-600'
+              }`}
+            />
+          ))}
+        </div>
       </div>
     );
   };
