@@ -30,8 +30,8 @@ export async function monitorServer(): Promise<ServerStatus[]> {
       }
     }
     
-    // List of ports to monitor (common development ports)
-    const ports = [5000, 3000, 8080, 4200, 8000, 3001, 5173, 8008, 8081, 6800];
+    // List of ports to monitor (5000-5009)
+    const ports = [5000, 5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009];
     
     // Check each port and collect status information
     const serverStatuses: ServerStatus[] = [];
@@ -51,18 +51,18 @@ export async function monitorServer(): Promise<ServerStatus[]> {
           status = 'offline';
           cpu = 0;
           ram = 0;
-        } else if (port === 3000) {
-          // Simulate high load on React development port
+        } else if (port === 5002) {
+          // Simulate high load on port 5002
           status = 'warning';
           cpu = Math.floor(Math.random() * 25) + 75; // 75-100%
           ram = 1200; // 1.2GB
-        } else if (port === 8080) {
-          // Simulate restarting state on common web port
+        } else if (port === 5007) {
+          // Simulate restarting state on port 5007
           status = 'restarting';
           cpu = Math.floor(Math.random() * 30) + 30; // 30-60%
           ram = 768; // 768MB
-        } else if (port === 4200) {
-          // Simulate offline state on Angular development port
+        } else if (port === 5004) {
+          // Simulate offline state on port 5004
           status = 'offline';
           cpu = 0;
           ram = 0;
