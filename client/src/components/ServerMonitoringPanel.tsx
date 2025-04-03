@@ -84,6 +84,16 @@ export default function ServerMonitoringPanel() {
             {getStatusText(server.status)}
           </span>
         </div>
+        <div className="flex justify-between text-sm">
+          <span>CPU: {server.cpu}%</span>
+          <span>RAM: {server.ram}MB</span>
+        </div>
+        <div className="mt-2 bg-gray-700 rounded-full h-1.5">
+          <div 
+            className={`${progressBarColor} h-1.5 rounded-full`}
+            style={{ width: `${server.status === 'offline' ? 100 : server.cpu}%` }}
+          ></div>
+        </div>
       </div>
     );
   };
