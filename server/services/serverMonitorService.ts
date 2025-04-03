@@ -30,8 +30,19 @@ export async function monitorServer(): Promise<ServerStatus[]> {
       }
     }
     
-    // List of ports to monitor (5000-5009)
-    const ports = [5000, 5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009];
+    // List of ports to monitor with their status
+    const ports = [
+      5000,  // Web application (main)
+      5001,  // API service
+      5002,  // Database
+      5003,  // Cache service
+      5004,  // Monitoring service 
+      5005,  // Authentication service
+      5006,  // Message queue
+      5007,  // WebSocket service
+      5008,  // Search service
+      5009   // Analytics service
+    ];
     
     // Check each port and collect status information
     const serverStatuses: ServerStatus[] = [];
