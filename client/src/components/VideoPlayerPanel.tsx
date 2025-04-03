@@ -133,10 +133,6 @@ export default function VideoPlayerPanel() {
 
   return (
     <div className="bg-[#1e1e1e] p-4 flex flex-col border border-[#333333] rounded-lg h-full">
-      <h2 className="text-2xl text-white font-bold mb-3 flex items-center">
-        <Film className="text-primary mr-2" />
-        Caméras Trafic
-      </h2>
       
       <div className="relative flex-1 flex flex-col bg-black/50 rounded-lg overflow-hidden" style={{ maxHeight: "260px" }}>
         {/* Video element */}
