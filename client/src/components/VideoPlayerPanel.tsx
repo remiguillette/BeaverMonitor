@@ -132,10 +132,10 @@ export default function VideoPlayerPanel() {
   }, []);
 
   return (
-    <div className="bg-[#1e1e1e] p-6 flex flex-col border border-[#333333] rounded-lg h-full">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl text-white font-bold flex items-center">
-          <Film className="text-primary mr-3" />
+    <div className="bg-[#1e1e1e] p-4 flex flex-col border border-[#333333] rounded-lg h-full">
+      <div className="flex justify-between items-center mb-2">
+        <h2 className="text-2xl text-white font-bold flex items-center">
+          <Film className="text-primary mr-2" />
           Caméras de circulation
         </h2>
         
@@ -163,27 +163,28 @@ export default function VideoPlayerPanel() {
         </div>
       </div>
       
-      <div className="relative flex-1 flex flex-col bg-black/50 rounded-lg overflow-hidden">
+      <div className="relative flex-1 flex flex-col bg-black/50 rounded-lg overflow-hidden" style={{ maxHeight: "180px" }}>
         {/* Video element */}
         <div className="relative flex-1">
           <video 
             ref={videoRef} 
             className="w-full h-full object-contain"
             poster="/assets/video-poster.svg"
+            style={{ maxHeight: "140px" }}
           >
             <source src={currentSource.src} type={currentSource.type} />
             Votre navigateur ne prend pas en charge la lecture vidéo.
           </video>
           
           {/* Camera title overlay */}
-          <div className="absolute top-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-sm">
+          <div className="absolute top-1 left-1 bg-black/70 text-white px-2 py-0.5 rounded text-xs">
             {currentSource.title}
           </div>
           
           {/* Loading indicator */}
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
           )}
           
@@ -193,16 +194,16 @@ export default function VideoPlayerPanel() {
             onClick={togglePlay}
           >
             {!playing && (
-              <div className="bg-primary/80 rounded-full p-4 opacity-80 group-hover:opacity-100 transition-opacity">
-                <Play className="w-8 h-8 text-white" />
+              <div className="bg-primary/80 rounded-full p-3 opacity-80 group-hover:opacity-100 transition-opacity">
+                <Play className="w-6 h-6 text-white" />
               </div>
             )}
           </div>
         </div>
         
         {/* Controls */}
-        <div className="p-3 bg-[#121212]">
-          <div className="flex items-center gap-2">
+        <div className="p-2 bg-[#121212]">
+          <div className="flex items-center gap-1">
             <Slider 
               value={[currentTime]} 
               min={0} 
@@ -216,21 +217,21 @@ export default function VideoPlayerPanel() {
             </span>
           </div>
           
-          <div className="flex items-center justify-between mt-2">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between mt-1">
+            <div className="flex items-center gap-2">
               <button 
-                className="text-white p-1 hover:text-primary transition-colors"
+                className="text-white hover:text-primary transition-colors"
                 onClick={togglePlay}
               >
-                {playing ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+                {playing ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
               </button>
               
-              <div className="flex items-center gap-2 w-28">
+              <div className="flex items-center gap-1 w-24">
                 <button 
-                  className="text-white p-1 hover:text-primary transition-colors"
+                  className="text-white hover:text-primary transition-colors"
                   onClick={toggleMute}
                 >
-                  {muted || volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                  {muted || volume === 0 ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
                 <Slider
                   value={[volume]}

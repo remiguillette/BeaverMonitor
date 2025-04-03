@@ -23,16 +23,16 @@ export default function Dashboard() {
       
       <Header />
       
-      <main className="px-8 py-4 grid grid-cols-12 gap-8" style={{ height: 'calc(100vh - 8rem)' }}>
+      <main className="px-8 py-4 grid grid-cols-12 gap-6" style={{ height: 'calc(100vh - 8rem)' }}>
         {/* Weather panel - 1/3 width (4 columns) */}
         <div className="col-span-4">
           <WeatherPanel />
         </div>
         
-        {/* Video and Traffic panels - 1/3 width, stacked vertically (4 columns) */}
-        <div className="col-span-4 grid grid-rows-2 gap-8">
-          <VideoPlayerPanel />
+        {/* Traffic and Video panels - 1/3 width, stacked vertically (4 columns) */}
+        <div className="col-span-4 grid grid-rows-[45%_55%] gap-4">
           <TrafficPanel />
+          <VideoPlayerPanel />
         </div>
         
         {/* Server monitoring panel - 1/3 width (4 columns) */}
