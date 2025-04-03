@@ -132,44 +132,16 @@ export default function VideoPlayerPanel() {
   }, []);
 
   return (
-    <div className="bg-[#1e1e1e] p-4 flex flex-col border border-[#333333] rounded-lg h-full">
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-2xl text-white font-bold">
-          Caméras de circulation
-        </h2>
-        
-        <div className="flex items-center gap-2">
-          {videoSources.map((source, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setCurrentSource(source);
-                if (videoRef.current) {
-                  videoRef.current.load();
-                  setPlaying(false);
-                  setCurrentTime(0);
-                }
-              }}
-              className={`text-xs px-2 py-1 rounded ${
-                currentSource.title === source.title 
-                  ? 'bg-primary text-white' 
-                  : 'bg-[#333333] text-gray-300 hover:bg-[#444444]'
-              } transition-colors`}
-            >
-              Caméra {index + 1}
-            </button>
-          ))}
-        </div>
-      </div>
+    <div className="bg-[#1e1e1e] p-2 flex flex-col border border-[#333333] rounded-lg h-full">
       
-      <div className="relative flex-1 flex flex-col bg-black/50 rounded-lg overflow-hidden" style={{ maxHeight: "180px" }}>
+      <div className="relative flex-1 flex flex-col bg-black/50 rounded-lg overflow-hidden" style={{ maxHeight: "220px" }}>
         {/* Video element */}
         <div className="relative flex-1">
           <video 
             ref={videoRef} 
             className="w-full h-full object-contain"
             poster="/assets/video-poster.svg"
-            style={{ maxHeight: "140px" }}
+            style={{ maxHeight: "180px" }}
           >
             <source src={currentSource.src} type={currentSource.type} />
             Votre navigateur ne prend pas en charge la lecture vidéo.
