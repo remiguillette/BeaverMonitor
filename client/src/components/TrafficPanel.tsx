@@ -1,7 +1,7 @@
 import { useAllRegionsTraffic, TrafficData } from "@/hooks/useTraffic";
 import { Car, AlertCircle, Construction, AlertTriangle, Info } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function TrafficPanel() {
   const { 
@@ -17,6 +17,10 @@ export default function TrafficPanel() {
   const [currentRegionIndex, setCurrentRegionIndex] = useState(0);
   const [fadeState, setFadeState] = useState<'in' | 'out'>('in');
   
+  // Auto-scroll reference
+  const autoScrollContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Region rotation effect
   useEffect(() => {
     const interval = setInterval(() => {
       // Start fade out
@@ -31,6 +35,44 @@ export default function TrafficPanel() {
     
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-scroll effect
+  useEffect(() => {
+    if (!autoScrollContainerRef.current) return;
+    
+    // Reset to top when region changes
+    autoScrollContainerRef.current.scrollTop = 0;
+    
+    // Only set up auto-scroll if there's content that needs scrolling
+    const container = autoScrollContainerRef.current;
+    if (container.scrollHeight > container.clientHeight) {
+      let scrollInterval: NodeJS.Timeout;
+      
+      // Start auto-scrolling after a short delay
+      const startDelay = setTimeout(() => {
+        // Total scroll time should be less than the region display time (8000ms)
+        const totalScrollTime = 7000; // 7 seconds (leaving 1s buffer)
+        const totalScrollDistance = container.scrollHeight - container.clientHeight;
+        const scrollStep = totalScrollDistance / (totalScrollTime / 50); // Move every 50ms
+        
+        let currentScroll = 0;
+        scrollInterval = setInterval(() => {
+          if (container && currentScroll < totalScrollDistance) {
+            currentScroll += scrollStep;
+            container.scrollTop = currentScroll;
+          } else {
+            // We've reached the bottom, clear the interval
+            clearInterval(scrollInterval);
+          }
+        }, 50);
+      }, 1000); // Start scrolling after 1 second of showing the top
+      
+      return () => {
+        clearTimeout(startDelay);
+        clearInterval(scrollInterval);
+      };
+    }
+  }, [currentRegionIndex, fadeState]);
 
   const getIncidentIcon = (type: string) => {
     switch (type) {
@@ -59,7 +101,7 @@ export default function TrafficPanel() {
         return 'border-[#ffbb33]';
     }
   };
-
+  
   const renderTrafficCard = (data: TrafficData | undefined, region: string) => {
     if (isLoading) {
       return (
@@ -87,7 +129,10 @@ export default function TrafficPanel() {
       <div className="w-full h-full">
         <h3 className="text-2xl font-medium mb-4">{region}</h3>
         
-        <div className="space-y-4 max-h-[450px] overflow-y-auto pr-2 traffic-incidents">
+        <div 
+          ref={autoScrollContainerRef}
+          className="space-y-4 max-h-[450px] overflow-y-auto pr-2 traffic-incidents"
+        >
           {data.incidents && data.incidents.length > 0 ? (
             data.incidents.map((incident, index) => (
               <div key={index} className={`border-l-4 ${getSeverityBorderColor(incident.severity)} pl-3 py-2 bg-[#252525] transition-all duration-200 hover:bg-[#2a2a2a] rounded-r`}>
