@@ -9,7 +9,7 @@ import { useWeatherAlerts } from '@/hooks/useWeatherAlerts';
 
 export default function Dashboard() {
   const { currentAlert, showAlert, closeAlert } = useWeatherAlerts();
-  
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {currentAlert && (
@@ -20,23 +20,23 @@ export default function Dashboard() {
           onClose={closeAlert}
         />
       )}
-      
+
       <Header />
-      
+
       <main className="px-8 py-4 grid grid-cols-12 gap-6" style={{ height: 'calc(100vh - 8rem)' }}>
         {/* Weather panel - 1/3 width (4 columns) */}
         <div className="col-span-4">
           <WeatherPanel />
         </div>
-        
+
         {/* Traffic and Video panels - 1/3 width, stacked vertically (4 columns) */}
-        <div className="col-span-4 grid grid-rows-[37%_1fr] gap-2">
+        <div className="col-span-4 grid grid-rows-[1fr_1fr] gap-2">
           <TrafficPanel />
           <div className="self-start">
             <VideoPlayerPanel />
           </div>
         </div>
-        
+
         {/* Server monitoring panel - 1/3 width (4 columns) */}
         <div className="col-span-4">
           <ServerMonitoringPanel />
