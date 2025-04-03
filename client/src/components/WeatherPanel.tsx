@@ -1,24 +1,10 @@
 import { useAllCitiesWeather, WeatherData } from "@/hooks/useWeather";
-import { getWeatherIcon, HumidityIcon, WindIcon, PrecipitationIcon, getDayAbbreviation } from "@/lib/weatherIcons";
+import { getWeatherIcon, HumidityIcon, WindIcon, PrecipitationIcon } from "@/lib/weatherIcons";
 import { Cloud } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function WeatherPanel() {
   const { Toronto, Hamilton, "Niagara Falls": NiagaraFalls, isLoading, isError } = useAllCitiesWeather();
-
-  const renderForecast = (forecast: WeatherData['forecast']) => {
-    return (
-      <div className="mt-4 flex justify-between">
-        {forecast.map((day, index) => (
-          <div key={index} className="text-center">
-            <div className="text-sm mb-1">{day.day}</div>
-            {getWeatherIcon(day.icon)}
-            <div className="text-sm">{day.temperature}°C</div>
-          </div>
-        ))}
-      </div>
-    );
-  };
 
   const renderWeatherCard = (data: WeatherData | undefined, city: string) => {
     if (isLoading) {
@@ -35,11 +21,6 @@ export default function WeatherPanel() {
               <Skeleton className="h-6 w-24 mb-1" />
               <Skeleton className="h-6 w-24 mb-1" />
             </div>
-          </div>
-          <div className="mt-4 flex justify-between">
-            {[...Array(5)].map((_, i) => (
-              <Skeleton key={i} className="h-20 w-14" />
-            ))}
           </div>
         </div>
       );
@@ -77,7 +58,6 @@ export default function WeatherPanel() {
             </div>
           </div>
         </div>
-        {data.forecast && renderForecast(data.forecast)}
       </div>
     );
   };
