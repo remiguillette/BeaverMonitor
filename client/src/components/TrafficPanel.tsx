@@ -119,7 +119,7 @@ export default function TrafficPanel() {
     if (isError || !data) {
       return (
         <div className="w-full h-full">
-          <h3 className="text-2xl font-medium mb-4">{region}</h3>
+          <h3 className="text-xl font-medium mb-2">{region}</h3>
           <div className="text-red-500">Impossible de charger les données de circulation.</div>
         </div>
       );
@@ -127,11 +127,11 @@ export default function TrafficPanel() {
 
     return (
       <div className="w-full h-full">
-        <h3 className="text-2xl font-medium mb-4">{region}</h3>
+        <h3 className="text-xl font-medium mb-2">{region}</h3>
         
         <div 
           ref={autoScrollContainerRef}
-          className="space-y-4 max-h-[300px] overflow-y-auto pr-2 traffic-incidents"
+          className="space-y-3 max-h-[220px] overflow-y-auto pr-2 traffic-incidents"
         >
           {data.incidents && data.incidents.length > 0 ? (
             data.incidents.map((incident, index) => (
@@ -171,10 +171,10 @@ export default function TrafficPanel() {
   const { data, displayName } = getCurrentRegionData();
   
   return (
-    <div className="bg-[#1e1e1e] p-6 flex flex-col border border-[#333333] rounded-lg h-full">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl text-white font-bold flex items-center">
-          <Car className="text-primary mr-3" />
+    <div className="bg-[#1e1e1e] p-4 flex flex-col border border-[#333333] rounded-lg h-full">
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="text-2xl text-white font-bold flex items-center">
+          <Car className="text-primary mr-2" />
           Circulation
         </h2>
         

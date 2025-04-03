@@ -30,7 +30,7 @@ export default function Dashboard() {
         </div>
         
         {/* Traffic and Video panels - 1/3 width, stacked vertically (4 columns) */}
-        <div className="col-span-4 grid grid-rows-[45%_55%] gap-4">
+        <div className="col-span-4 grid grid-rows-[38%_62%] gap-2">
           <TrafficPanel />
           <VideoPlayerPanel />
         </div>

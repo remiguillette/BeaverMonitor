@@ -65,9 +65,9 @@ export default function WeatherPanel() {
   };
 
   return (
-    <div className="bg-[#1e1e1e] p-6 flex flex-col overflow-y-auto border border-[#333333] rounded-lg">
-      <h2 className="text-3xl text-white font-bold mb-6 flex items-center">
-        <Cloud className="text-primary mr-3" />
+    <div className="bg-[#1e1e1e] p-4 flex flex-col overflow-y-auto border border-[#333333] rounded-lg">
+      <h2 className="text-2xl text-white font-bold mb-3 flex items-center">
+        <Cloud className="text-primary mr-2" />
         Météo
       </h2>
       

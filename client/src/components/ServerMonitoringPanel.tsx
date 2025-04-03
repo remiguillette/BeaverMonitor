@@ -1,11 +1,11 @@
-import { useServerStatus, useSystemStatus } from "@/hooks/useServerStatus";
+import { useServerStatus, useSystemStatus, ServerInfo, SystemStatusInfo } from "@/hooks/useServerStatus";
 import { Server, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 
 export default function ServerMonitoringPanel() {
   const { data: serverStatusData, isLoading: isLoadingServerStatus, isError: isServerStatusError } = useServerStatus();
-  const { data: systemStatusData, isLoading: isLoadingSystemStatus, isError: isSystemStatusError } = useSystemStatus();
+  const { data: systemStatusData, isLoading: isLoadingSystemStatus, isError: isSystemStatusError } = useSystemStatus() as { data: SystemStatusInfo | undefined, isLoading: boolean, isError: boolean };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -67,7 +67,7 @@ export default function ServerMonitoringPanel() {
     return `Aujourd'hui, ${hours}:${minutes}:${seconds}`;
   };
 
-  const renderServerCard = (server: any) => {
+  const renderServerCard = (server: ServerInfo) => {
     const progressBarColor = 
       server.status === 'offline' 
         ? 'bg-[#ff4444]' 
@@ -146,12 +146,12 @@ export default function ServerMonitoringPanel() {
       );
     }
 
-    const { cpuAverage, ramAverage, ramTotal, uptime, lastUpdated } = systemStatusData;
+    const { cpuAverage, ramAverage, ramTotal, uptime, lastUpdated } = systemStatusData as SystemStatusInfo;
     const ramPercentage = (ramAverage / ramTotal) * 100;
 
     return (
-      <div className="bg-[#1e1e1e] mt-6 p-5 rounded-lg border border-[#333333]">
-        <h3 className="text-2xl font-medium mb-4">Status du système</h3>
+      <div className="bg-[#1e1e1e] mt-4 p-4 rounded-lg border border-[#333333]">
+        <h3 className="text-xl font-medium mb-2">Status du système</h3>
         <div className="space-y-3">
           <div className="flex justify-between items-center">
             <span>Utilisation moyenne CPU</span>
@@ -180,9 +180,9 @@ export default function ServerMonitoringPanel() {
   };
 
   return (
-    <div className="bg-[#1e1e1e] p-6 flex flex-col overflow-y-auto border border-[#333333] rounded-lg">
-      <h2 className="text-3xl text-white font-bold mb-6 flex items-center">
-        <Server className="text-primary mr-3" />
+    <div className="bg-[#1e1e1e] p-4 flex flex-col overflow-y-auto border border-[#333333] rounded-lg">
+      <h2 className="text-2xl text-white font-bold mb-3 flex items-center">
+        <Server className="text-primary mr-2" />
         Status Serveur
       </h2>
 
