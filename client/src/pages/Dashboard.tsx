@@ -30,9 +30,11 @@ export default function Dashboard() {
         </div>
         
         {/* Traffic and Video panels - 1/3 width, stacked vertically (4 columns) */}
-        <div className="col-span-4 grid grid-rows-[37%_63%] gap-2">
+        <div className="col-span-4 grid grid-rows-[37%_1fr] gap-2">
           <TrafficPanel />
-          <VideoPlayerPanel />
+          <div className="self-start">
+            <VideoPlayerPanel />
+          </div>
         </div>
         
         {/* Server monitoring panel - 1/3 width (4 columns) */}

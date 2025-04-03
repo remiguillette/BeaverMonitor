@@ -171,9 +171,9 @@ export default function VideoPlayerPanel() {
   }, []);
 
   return (
-    <div className="bg-[#1e1e1e] flex flex-col border border-[#333333] rounded-lg h-auto">
+    <div className="bg-[#1e1e1e] w-full h-auto rounded-lg overflow-hidden border border-[#333333]">
       <div 
-        className="relative rounded-lg overflow-hidden"
+        className="relative"
         onMouseEnter={() => setShowControls(true)}
         onMouseMove={() => {
           setShowControls(true);
@@ -182,54 +182,52 @@ export default function VideoPlayerPanel() {
         onMouseLeave={() => setShowControls(false)}
       >
         {/* Video element */}
-        <div className="relative">
-          <video 
-            ref={videoRef} 
-            className="w-full"
-            poster="/assets/video-poster.svg"
-            playsInline
-            loop
-          >
-            <source src={currentSource.src} type={currentSource.type} />
-            Votre navigateur ne prend pas en charge la lecture vidéo.
-          </video>
-          
-          {/* Camera title overlay */}
-          <div className="absolute top-1 left-1 bg-black/70 text-white px-2 py-0.5 rounded text-xs">
-            {currentSource.title}
+        <video 
+          ref={videoRef} 
+          className="w-full h-auto block"
+          poster="/assets/video-poster.svg"
+          playsInline
+          loop
+        >
+          <source src={currentSource.src} type={currentSource.type} />
+          Votre navigateur ne prend pas en charge la lecture vidéo.
+        </video>
+        
+        {/* Camera title overlay */}
+        <div className="absolute top-1 left-1 bg-black/70 text-white px-2 py-0.5 rounded text-xs">
+          {currentSource.title}
+        </div>
+        
+        {/* Loading indicator */}
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+            <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin"></div>
           </div>
-          
-          {/* Loading indicator */}
-          {loading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-              <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin"></div>
+        )}
+        
+        {/* Play/Pause overlay */}
+        <div 
+          className="absolute inset-0 flex items-center justify-center cursor-pointer group"
+          onClick={togglePlay}
+        >
+          {!playing && (
+            <div className="bg-primary/80 rounded-full p-3 opacity-80 group-hover:opacity-100 transition-opacity">
+              <Play className="w-6 h-6 text-white" />
             </div>
           )}
-          
-          {/* Play/Pause overlay */}
-          <div 
-            className="absolute inset-0 flex items-center justify-center cursor-pointer group"
-            onClick={togglePlay}
-          >
-            {!playing && (
-              <div className="bg-primary/80 rounded-full p-3 opacity-80 group-hover:opacity-100 transition-opacity">
-                <Play className="w-6 h-6 text-white" />
-              </div>
-            )}
-          </div>
-          
-          {/* Toggle controls button */}
-          <button 
-            className="absolute bottom-1 right-1 bg-black/70 text-white p-1 rounded-full opacity-70 hover:opacity-100 transition-opacity z-10"
-            onClick={toggleControls}
-          >
-            {showControls ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
-          </button>
         </div>
+        
+        {/* Toggle controls button */}
+        <button 
+          className="absolute bottom-1 right-1 bg-black/70 text-white p-1 rounded-full opacity-70 hover:opacity-100 transition-opacity z-10"
+          onClick={toggleControls}
+        >
+          {showControls ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+        </button>
         
         {/* Controls - Hidden by default, shown on hover or when toggled */}
         {showControls && (
-          <div className="p-2 bg-black/80 transition-all duration-300">
+          <div className="absolute bottom-0 left-0 right-0 p-2 bg-black/80 transition-all duration-300">
             <div className="flex items-center gap-1">
               <Slider 
                 value={[currentTime]} 
