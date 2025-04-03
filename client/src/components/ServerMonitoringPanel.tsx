@@ -76,21 +76,21 @@ export default function ServerMonitoringPanel() {
           : 'bg-primary';
 
     return (
-      <div key={server.port} className="bg-[#1e1e1e] p-4 rounded-lg border border-[#333333]">
-        <div className="flex items-center justify-between mb-2">
-          <span className="font-medium">Port {server.port}</span>
-          <span className={`flex items-center ${getTextColorClass(server.status)}`}>
+      <div key={server.port} className="bg-[#1e1e1e] p-2 rounded-lg border border-[#333333]">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-sm">Port {server.port}</span>
+          <span className={`flex items-center text-xs ${getTextColorClass(server.status)}`}>
             {getStatusIcon(server.status)}
             {getStatusText(server.status)}
           </span>
         </div>
-        <div className="flex justify-between text-sm">
+        <div className="flex justify-between text-xs">
           <span>CPU: {server.cpu}%</span>
           <span>RAM: {server.ram}MB</span>
         </div>
-        <div className="mt-2 bg-gray-700 rounded-full h-1.5">
+        <div className="mt-1 bg-gray-700 rounded-full h-1">
           <div 
-            className={`${progressBarColor} h-1.5 rounded-full`}
+            className={`${progressBarColor} h-1 rounded-full`}
             style={{ width: `${server.status === 'offline' ? 100 : server.cpu}%` }}
           ></div>
         </div>
