@@ -114,7 +114,7 @@ export default function ServerMonitoringPanel() {
     }
 
     return (
-      <div className="grid grid-cols-2 gap-4">
+      <div className="flex flex-col gap-4">
         {serverStatusData.map((server) => renderServerCard(server))}
       </div>
     );
