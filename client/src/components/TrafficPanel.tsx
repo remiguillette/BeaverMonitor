@@ -67,15 +67,15 @@ export default function TrafficPanel() {
       <div className="bg-[#1e1e1e] mb-6 p-5 rounded-lg border border-[#333333]">
         <h3 className="text-2xl font-medium mb-4">{region}</h3>
         
-        <div className="space-y-4">
+        <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2 traffic-incidents">
           {data.incidents && data.incidents.length > 0 ? (
             data.incidents.map((incident, index) => (
-              <div key={index} className={`border-l-4 ${getSeverityBorderColor(incident.severity)} pl-3 py-2`}>
-                <div className="flex items-center">
+              <div key={index} className={`border-l-4 ${getSeverityBorderColor(incident.severity)} pl-3 py-2 bg-[#252525] transition-all duration-200 hover:bg-[#2a2a2a] rounded-r`}>
+                <div className="flex items-center flex-wrap">
                   {getIncidentIcon(incident.type)}
-                  <span className="font-medium">{incident.location}</span>
+                  <span className="font-medium break-words">{incident.location}</span>
                 </div>
-                <p className="text-sm mt-1">{incident.description}</p>
+                <p className="text-sm mt-1 break-words pl-7 text-gray-300">{incident.description}</p>
               </div>
             ))
           ) : (
