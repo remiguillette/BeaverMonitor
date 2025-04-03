@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Film, Pause, Play, Volume2, VolumeX } from "lucide-react";
+import { Film, Pause, Play, Volume2, VolumeX, ChevronUp, ChevronDown } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 
 export interface VideoSource {
@@ -9,13 +9,15 @@ export interface VideoSource {
 }
 
 export default function VideoPlayerPanel() {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true); // Default to playing for autoplay
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(50);
   const [muted, setMuted] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showControls, setShowControls] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Sample video sources
   const videoSources: VideoSource[] = [
@@ -46,6 +48,25 @@ export default function VideoPlayerPanel() {
     const seconds = Math.floor(time % 60);
     
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  // Auto-hide controls after period of inactivity
+  const resetControlsTimeout = () => {
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+    
+    controlsTimeoutRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, 3000); // Hide controls after 3 seconds of inactivity
+  };
+
+  // Toggle controls visibility
+  const toggleControls = () => {
+    setShowControls(!showControls);
+    if (!showControls) {
+      resetControlsTimeout();
+    }
   };
 
   // Control handlers
@@ -107,10 +128,24 @@ export default function VideoPlayerPanel() {
     const handleLoadedMetadata = () => {
       setDuration(video.duration);
       setLoading(false);
+      // Start playing automatically once metadata is loaded
+      video.play()
+        .then(() => setPlaying(true))
+        .catch((error) => {
+          console.log("Autoplay prevented:", error);
+          setPlaying(false);
+        });
     };
 
     const handleEnded = () => {
       setPlaying(false);
+      // Loop the video when it ends
+      if (video) {
+        video.currentTime = 0;
+        video.play()
+          .then(() => setPlaying(true))
+          .catch(() => setPlaying(false));
+      }
     };
 
     video.addEventListener('timeupdate', handleTimeUpdate);
@@ -121,8 +156,12 @@ export default function VideoPlayerPanel() {
 
     // Set initial volume
     video.volume = volume / 100;
+    video.muted = muted;
 
     return () => {
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       video.removeEventListener('ended', handleEnded);
@@ -133,15 +172,24 @@ export default function VideoPlayerPanel() {
 
   return (
     <div className="bg-[#1e1e1e] p-4 flex flex-col border border-[#333333] rounded-lg h-full">
-      
-      <div className="relative flex-1 flex flex-col bg-black/50 rounded-lg overflow-hidden" style={{ maxHeight: "260px" }}>
+      <div 
+        className="relative flex-1 flex flex-col bg-black/50 rounded-lg overflow-hidden"
+        style={{ maxHeight: "215px" }}
+        onMouseEnter={() => setShowControls(true)}
+        onMouseMove={() => {
+          setShowControls(true);
+          resetControlsTimeout();
+        }}
+        onMouseLeave={() => setShowControls(false)}
+      >
         {/* Video element */}
         <div className="relative flex-1">
           <video 
             ref={videoRef} 
             className="w-full h-full object-contain"
             poster="/assets/video-poster.svg"
-            style={{ maxHeight: "215px" }}
+            playsInline
+            loop
           >
             <source src={currentSource.src} type={currentSource.type} />
             Votre navigateur ne prend pas en charge la lecture vidéo.
@@ -170,52 +218,62 @@ export default function VideoPlayerPanel() {
               </div>
             )}
           </div>
+          
+          {/* Toggle controls button */}
+          <button 
+            className="absolute bottom-1 right-1 bg-black/70 text-white p-1 rounded-full opacity-70 hover:opacity-100 transition-opacity z-10"
+            onClick={toggleControls}
+          >
+            {showControls ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+          </button>
         </div>
         
-        {/* Controls */}
-        <div className="p-2 bg-[#121212]">
-          <div className="flex items-center gap-1">
-            <Slider 
-              value={[currentTime]} 
-              min={0} 
-              max={duration || 100}
-              step={0.1}
-              onValueChange={handleSeek}
-              className="flex-1"
-            />
-            <span className="text-xs text-gray-400 whitespace-nowrap">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </span>
-          </div>
-          
-          <div className="flex items-center justify-between mt-1">
-            <div className="flex items-center gap-2">
-              <button 
-                className="text-white hover:text-primary transition-colors"
-                onClick={togglePlay}
-              >
-                {playing ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-              </button>
-              
-              <div className="flex items-center gap-1 w-24">
+        {/* Controls - Hidden by default, shown on hover or when toggled */}
+        {showControls && (
+          <div className="p-2 bg-black/80 transition-all duration-300">
+            <div className="flex items-center gap-1">
+              <Slider 
+                value={[currentTime]} 
+                min={0} 
+                max={duration || 100}
+                step={0.1}
+                onValueChange={handleSeek}
+                className="flex-1"
+              />
+              <span className="text-xs text-gray-400 whitespace-nowrap">
+                {formatTime(currentTime)} / {formatTime(duration)}
+              </span>
+            </div>
+            
+            <div className="flex items-center justify-between mt-1">
+              <div className="flex items-center gap-2">
                 <button 
                   className="text-white hover:text-primary transition-colors"
-                  onClick={toggleMute}
+                  onClick={togglePlay}
                 >
-                  {muted || volume === 0 ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                  {playing ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
                 </button>
-                <Slider
-                  value={[volume]}
-                  min={0}
-                  max={100}
-                  step={1}
-                  onValueChange={handleVolumeChange}
-                  className="flex-1"
-                />
+                
+                <div className="flex items-center gap-1 w-24">
+                  <button 
+                    className="text-white hover:text-primary transition-colors"
+                    onClick={toggleMute}
+                  >
+                    {muted || volume === 0 ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                  </button>
+                  <Slider
+                    value={[volume]}
+                    min={0}
+                    max={100}
+                    step={1}
+                    onValueChange={handleVolumeChange}
+                    className="flex-1"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
