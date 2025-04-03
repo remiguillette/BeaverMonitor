@@ -14,7 +14,7 @@ export interface TrafficData {
 }
 
 export function useTraffic(region: string) {
-  return useQuery({
+  return useQuery<TrafficData>({
     queryKey: [`/api/traffic/${encodeURIComponent(region)}`],
     refetchInterval: 300000, // 5 minutes
   });

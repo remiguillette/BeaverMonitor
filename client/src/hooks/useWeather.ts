@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getQueryFn } from '@/lib/queryClient';
+import { WeatherCode } from '@/lib/weatherIcons';
 
 export interface WeatherForecast {
   day: string;
@@ -18,7 +19,7 @@ export interface WeatherData {
 }
 
 export function useWeather(city: string) {
-  return useQuery({
+  return useQuery<WeatherData>({
     queryKey: [`/api/weather/${encodeURIComponent(city)}`],
     refetchInterval: 900000, // 15 minutes
   });

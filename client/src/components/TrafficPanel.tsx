@@ -93,10 +93,10 @@ export default function TrafficPanel() {
         Circulation
       </h2>
 
-      {renderTrafficCard(gtaTorontoTraffic, "GTA Toronto")}
-      {renderTrafficCard(torontoTraffic, "Toronto")}
-      {renderTrafficCard(hamiltonTraffic, "Hamilton")}
-      {renderTrafficCard(niagaraRegionTraffic, "Région de Niagara")}
+      {renderTrafficCard(gtaTorontoTraffic as TrafficData, "GTA Toronto")}
+      {renderTrafficCard(torontoTraffic as TrafficData, "Toronto")}
+      {renderTrafficCard(hamiltonTraffic as TrafficData, "Hamilton")}
+      {renderTrafficCard(niagaraRegionTraffic as TrafficData, "Région de Niagara")}
     </div>
   );
 }

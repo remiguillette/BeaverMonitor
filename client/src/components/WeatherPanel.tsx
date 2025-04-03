@@ -1,5 +1,5 @@
 import { useAllCitiesWeather, WeatherData } from "@/hooks/useWeather";
-import { getWeatherIcon, HumidityIcon, WindIcon, PrecipitationIcon } from "@/lib/weatherIcons";
+import { getWeatherIcon, HumidityIcon, WindIcon, PrecipitationIcon, WeatherCode } from "@/lib/weatherIcons";
 import { Cloud } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -40,7 +40,7 @@ export default function WeatherPanel() {
         <h3 className="text-2xl font-medium mb-2">{city}</h3>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            {getWeatherIcon(data.icon)}
+            {getWeatherIcon(data.icon as WeatherCode)}
             <div className="text-4xl font-bold">{data.temperature}°C</div>
           </div>
           <div>
@@ -69,9 +69,9 @@ export default function WeatherPanel() {
         Météo
       </h2>
       
-      {renderWeatherCard(Toronto, "Toronto")}
-      {renderWeatherCard(Hamilton, "Hamilton")}
-      {renderWeatherCard(NiagaraFalls, "Niagara Falls")}
+      {renderWeatherCard(Toronto as WeatherData, "Toronto")}
+      {renderWeatherCard(Hamilton as WeatherData, "Hamilton")}
+      {renderWeatherCard(NiagaraFalls as WeatherData, "Niagara Falls")}
     </div>
   );
 }

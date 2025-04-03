@@ -29,25 +29,25 @@ export type WeatherCode =
   | 96 | 99; // Thunderstorm with slight and heavy hail
 
 export const getWeatherIcon = (code: WeatherCode) => {
-  const className = "weather-icon text-primary mr-2 w-16 h-16";
+  const baseClassName = "weather-icon text-primary mr-2 w-16 h-16";
 
   switch (code) {
     case 0:
-      return <Sun className={className} />;
+      return <Sun className={`${baseClassName} sun-shine`} />;
     case 1:
     case 2:
-      return <CloudSun className={className} />;
+      return <CloudSun className={`${baseClassName} sun-shine`} />;
     case 3:
-      return <Cloud className={className} />;
+      return <Cloud className={baseClassName} />;
     case 45:
     case 48:
-      return <CloudFog className={className} />;
+      return <CloudFog className={`${baseClassName} cloud-fog`} />;
     case 51:
     case 53:
     case 55:
     case 56:
     case 57:
-      return <CloudDrizzle className={className} />;
+      return <CloudDrizzle className={`${baseClassName} cloud-rain`} />;
     case 61:
     case 63:
     case 65:
@@ -56,20 +56,20 @@ export const getWeatherIcon = (code: WeatherCode) => {
     case 80:
     case 81:
     case 82:
-      return <CloudRain className={className} />;
+      return <CloudRain className={`${baseClassName} cloud-rain`} />;
     case 71:
     case 73:
     case 75:
     case 77:
     case 85:
     case 86:
-      return <CloudSnow className={className} />;
+      return <CloudSnow className={`${baseClassName} cloud-snow`} />;
     case 95:
     case 96:
     case 99:
-      return <CloudLightning className={className} />;
+      return <CloudLightning className={`${baseClassName} cloud-lightning`} />;
     default:
-      return <Cloud className={className} />;
+      return <Cloud className={baseClassName} />;
   }
 };
 
