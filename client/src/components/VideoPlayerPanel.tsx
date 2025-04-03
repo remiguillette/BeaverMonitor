@@ -68,10 +68,6 @@ export default function VideoPlayerPanel() {
           Votre navigateur ne prend pas en charge la lecture vidéo.
         </video>
 
-        <div className="absolute top-1 left-1 bg-black/70 text-white px-2 py-0.5 rounded text-xs">
-          {currentSource.title}
-        </div>
-
         {/* Play/Pause overlay */}
         <div 
           className="absolute inset-0 flex items-center justify-center cursor-pointer group"
