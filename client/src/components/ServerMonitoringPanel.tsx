@@ -77,7 +77,7 @@ export default function ServerMonitoringPanel() {
 
     return (
       <div key={server.port} className="bg-[#1e1e1e] p-4 rounded-lg border border-[#333333]">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-2">
           <span className="font-medium">Port {server.port}</span>
           <span className={`flex items-center ${getTextColorClass(server.status)}`}>
             {getStatusIcon(server.status)}
