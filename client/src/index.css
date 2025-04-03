@@ -71,7 +71,7 @@
 }
 
 .cloud-drift {
-  animation: cloud-drift 8s ease-in-out infinite;
+  animation: cloud-drift 20s ease-in-out infinite;
 }
 
 .cloud-fog {
@@ -134,17 +134,27 @@
 }
 
 @keyframes cloud-drift {
-  0%, 100% {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    transform: translateX(-80%);
+    opacity: 1;
+  }
+  45% {
     transform: translateX(0);
   }
-  25% {
-    transform: translateX(3px) translateY(-1px);
+  55% {
+    transform: translateX(0);
   }
-  50% {
-    transform: translateX(6px);
+  90% {
+    transform: translateX(80%);
+    opacity: 1;
   }
-  75% {
-    transform: translateX(3px) translateY(1px);
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
   }
 }
 
