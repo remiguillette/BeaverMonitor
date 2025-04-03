@@ -55,7 +55,7 @@ export default function ServerMonitoringPanel() {
     const days = Math.floor(seconds / (24 * 3600));
     const hours = Math.floor((seconds % (24 * 3600)) / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
-    
+
     return `${days} jours, ${hours} heures, ${minutes} minutes`;
   };
 
@@ -64,7 +64,7 @@ export default function ServerMonitoringPanel() {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     const seconds = date.getSeconds().toString().padStart(2, '0');
-    
+
     return `Aujourd'hui, ${hours}:${minutes}:${seconds}`;
   };
 
@@ -108,7 +108,7 @@ export default function ServerMonitoringPanel() {
           setCurrentIndex((prevIndex) => 
             (prevIndex + 4) >= serverStatusData.length ? 0 : prevIndex + 4
           );
-        }, 3000); // Change every 3 seconds
+        }, 15000); // Change every 15 seconds
 
         return () => clearInterval(interval);
       }
@@ -191,18 +191,18 @@ export default function ServerMonitoringPanel() {
             <span className="font-medium">{cpuAverage.toFixed(1)}%</span>
           </div>
           <Progress value={cpuAverage} className="h-2 bg-gray-700" />
-          
+
           <div className="flex justify-between items-center mt-4">
             <span>Utilisation moyenne RAM</span>
             <span className="font-medium">{ramAverage}MB / {ramTotal}MB</span>
           </div>
           <Progress value={ramPercentage} className="h-2 bg-gray-700" />
-          
+
           <div className="flex justify-between items-center mt-4">
             <span>Temps de fonctionnement</span>
             <span className="font-medium">{formatUptime(uptime)}</span>
           </div>
-          
+
           <div className="flex justify-between items-center mt-4">
             <span>Dernière mise à jour</span>
             <span className="font-medium">{formatTime(lastUpdated)}</span>
