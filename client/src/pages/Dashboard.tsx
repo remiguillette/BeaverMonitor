@@ -29,10 +29,10 @@ export default function Dashboard() {
           <WeatherPanel />
         </div>
         
-        {/* Traffic and Video panels - 1/3 width, stacked vertically (4 columns) */}
+        {/* Video and Traffic panels - 1/3 width, stacked vertically (4 columns) */}
         <div className="col-span-4 grid grid-rows-2 gap-8">
-          <TrafficPanel />
           <VideoPlayerPanel />
+          <TrafficPanel />
         </div>
         
         {/* Server monitoring panel - 1/3 width (4 columns) */}
