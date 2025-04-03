@@ -70,6 +70,10 @@
   animation-delay: 1s;
 }
 
+.cloud-drift {
+  animation: cloud-drift 8s ease-in-out infinite;
+}
+
 .cloud-fog {
   animation: fog-move 4s ease-in-out infinite;
 }
@@ -126,6 +130,21 @@
   100% {
     transform: translateY(20px) rotate(180deg);
     opacity: 0;
+  }
+}
+
+@keyframes cloud-drift {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(3px) translateY(-1px);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+  75% {
+    transform: translateX(3px) translateY(1px);
   }
 }
 

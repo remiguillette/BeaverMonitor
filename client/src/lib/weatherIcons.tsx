@@ -38,7 +38,7 @@ export const getWeatherIcon = (code: WeatherCode) => {
     case 2:
       return <CloudSun className={`${baseClassName} sun-shine`} />;
     case 3:
-      return <Cloud className={baseClassName} />;
+      return <Cloud className={`${baseClassName} cloud-drift`} />;
     case 45:
     case 48:
       return <CloudFog className={`${baseClassName} cloud-fog`} />;
@@ -69,7 +69,7 @@ export const getWeatherIcon = (code: WeatherCode) => {
     case 99:
       return <CloudLightning className={`${baseClassName} cloud-lightning`} />;
     default:
-      return <Cloud className={baseClassName} />;
+      return <Cloud className={`${baseClassName} cloud-drift`} />;
   }
 };
 
