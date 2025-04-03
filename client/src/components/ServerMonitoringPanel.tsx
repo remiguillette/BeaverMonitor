@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useServerStatus, useSystemStatus, ServerInfo, SystemStatusInfo } from "@/hooks/useServerStatus";
 import { Server, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
