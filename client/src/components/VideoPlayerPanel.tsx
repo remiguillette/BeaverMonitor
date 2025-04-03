@@ -188,6 +188,8 @@ export default function VideoPlayerPanel() {
           poster="/assets/video-poster.svg"
           playsInline
           loop
+          autoPlay
+          muted // Required for autoplay to work in most browsers
         >
           <source src={currentSource.src} type={currentSource.type} />
           Votre navigateur ne prend pas en charge la lecture vidéo.
