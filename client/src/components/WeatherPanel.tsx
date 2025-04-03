@@ -1,0 +1,97 @@
+import { useAllCitiesWeather, WeatherData } from "@/hooks/useWeather";
+import { getWeatherIcon, HumidityIcon, WindIcon, PrecipitationIcon, getDayAbbreviation } from "@/lib/weatherIcons";
+import { Cloud } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+export default function WeatherPanel() {
+  const { Toronto, Hamilton, "Niagara Falls": NiagaraFalls, isLoading, isError } = useAllCitiesWeather();
+
+  const renderForecast = (forecast: WeatherData['forecast']) => {
+    return (
+      <div className="mt-4 flex justify-between">
+        {forecast.map((day, index) => (
+          <div key={index} className="text-center">
+            <div className="text-sm mb-1">{day.day}</div>
+            {getWeatherIcon(day.icon)}
+            <div className="text-sm">{day.temperature}°C</div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const renderWeatherCard = (data: WeatherData | undefined, city: string) => {
+    if (isLoading) {
+      return (
+        <div className="bg-[#1e1e1e] mb-6 p-5 rounded-lg border border-[#333333]">
+          <h3 className="text-2xl font-medium mb-2">{city}</h3>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Skeleton className="h-16 w-16 rounded-full mr-2" />
+              <Skeleton className="h-10 w-20" />
+            </div>
+            <div>
+              <Skeleton className="h-6 w-24 mb-1" />
+              <Skeleton className="h-6 w-24 mb-1" />
+              <Skeleton className="h-6 w-24 mb-1" />
+            </div>
+          </div>
+          <div className="mt-4 flex justify-between">
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} className="h-20 w-14" />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (isError || !data) {
+      return (
+        <div className="bg-[#1e1e1e] mb-6 p-5 rounded-lg border border-[#333333]">
+          <h3 className="text-2xl font-medium mb-2">{city}</h3>
+          <div className="text-red-500">Impossible de charger les données météo.</div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="bg-[#1e1e1e] mb-6 p-5 rounded-lg border border-[#333333]">
+        <h3 className="text-2xl font-medium mb-2">{city}</h3>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            {getWeatherIcon(data.icon)}
+            <div className="text-4xl font-bold">{data.temperature}°C</div>
+          </div>
+          <div>
+            <div className="flex items-center mb-1">
+              <HumidityIcon />
+              <span>{data.humidity}%</span>
+            </div>
+            <div className="flex items-center mb-1">
+              <WindIcon />
+              <span>{data.wind} km/h</span>
+            </div>
+            <div className="flex items-center mb-1">
+              <PrecipitationIcon />
+              <span>{data.precipitation}%</span>
+            </div>
+          </div>
+        </div>
+        {data.forecast && renderForecast(data.forecast)}
+      </div>
+    );
+  };
+
+  return (
+    <div className="bg-[#1e1e1e] p-6 flex flex-col overflow-y-auto border border-[#333333] rounded-lg">
+      <h2 className="text-3xl text-white font-bold mb-6 flex items-center">
+        <Cloud className="text-primary mr-3" />
+        Météo
+      </h2>
+      
+      {renderWeatherCard(Toronto, "Toronto")}
+      {renderWeatherCard(Hamilton, "Hamilton")}
+      {renderWeatherCard(NiagaraFalls, "Niagara Falls")}
+    </div>
+  );
+}
