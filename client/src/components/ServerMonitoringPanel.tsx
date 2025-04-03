@@ -76,12 +76,14 @@ export default function ServerMonitoringPanel() {
           : 'bg-primary';
 
     return (
-      <div key={server.port} className="bg-[#1e1e1e] p-4 rounded-lg border border-[#333333] flex items-center justify-between">
-        <span className="font-medium">Port {server.port}</span>
-        <span className={`flex items-center ${getTextColorClass(server.status)}`}>
-          {getStatusIcon(server.status)}
-          {getStatusText(server.status)}
-        </span>
+      <div key={server.port} className="bg-[#1e1e1e] p-4 rounded-lg border border-[#333333]">
+        <div className="flex items-center justify-between">
+          <span className="font-medium">Port {server.port}</span>
+          <span className={`flex items-center ${getTextColorClass(server.status)}`}>
+            {getStatusIcon(server.status)}
+            {getStatusText(server.status)}
+          </span>
+        </div>
       </div>
     );
   };

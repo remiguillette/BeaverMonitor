@@ -131,7 +131,7 @@ export default function TrafficPanel() {
         
         <div 
           ref={autoScrollContainerRef}
-          className="space-y-3 h-[calc(100%-3rem)] overflow-y-auto pr-2 traffic-incidents"
+          className="space-y-3 max-h-[220px] overflow-y-auto pr-2 traffic-incidents"
         >
           {data.incidents && data.incidents.length > 0 ? (
             data.incidents.map((incident, index) => (
