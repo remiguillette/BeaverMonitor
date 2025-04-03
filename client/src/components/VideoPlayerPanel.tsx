@@ -171,10 +171,9 @@ export default function VideoPlayerPanel() {
   }, []);
 
   return (
-    <div className="bg-[#1e1e1e] p-4 flex flex-col border border-[#333333] rounded-lg h-full">
+    <div className="bg-[#1e1e1e] flex flex-col border border-[#333333] rounded-lg h-auto">
       <div 
-        className="relative flex-1 flex flex-col bg-black/50 rounded-lg overflow-hidden"
-        style={{ maxHeight: "215px" }}
+        className="relative rounded-lg overflow-hidden"
         onMouseEnter={() => setShowControls(true)}
         onMouseMove={() => {
           setShowControls(true);
@@ -183,10 +182,10 @@ export default function VideoPlayerPanel() {
         onMouseLeave={() => setShowControls(false)}
       >
         {/* Video element */}
-        <div className="relative flex-1">
+        <div className="relative">
           <video 
             ref={videoRef} 
-            className="w-full h-full object-contain"
+            className="w-full"
             poster="/assets/video-poster.svg"
             playsInline
             loop
