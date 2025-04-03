@@ -139,7 +139,7 @@
     opacity: 0;
   }
   10% {
-    transform: translateX(-80%);
+    transform: translateX(-50%);
     opacity: 1;
   }
   45% {
@@ -149,7 +149,7 @@
     transform: translateX(0);
   }
   90% {
-    transform: translateX(80%);
+    transform: translateX(50%);
     opacity: 1;
   }
   100% {

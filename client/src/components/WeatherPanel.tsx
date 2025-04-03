@@ -40,7 +40,9 @@ export default function WeatherPanel() {
         <h3 className="text-2xl font-medium mb-2">{city}</h3>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            {getWeatherIcon(data.icon as WeatherCode)}
+            <div className="weather-icon-container overflow-hidden w-16 h-16 relative mr-2">
+              {getWeatherIcon(data.icon as WeatherCode)}
+            </div>
             <div className="text-4xl font-bold">{data.temperature}°C</div>
           </div>
           <div>

@@ -29,7 +29,7 @@ export type WeatherCode =
   | 96 | 99; // Thunderstorm with slight and heavy hail
 
 export const getWeatherIcon = (code: WeatherCode) => {
-  const baseClassName = "weather-icon text-primary mr-2 w-16 h-16";
+  const baseClassName = "weather-icon text-primary w-16 h-16 absolute";
 
   switch (code) {
     case 0:
