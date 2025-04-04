@@ -15,12 +15,12 @@ export default function VideoPlayerPanel() {
   const [error, setError] = useState<string | null>(null);
 
   const videoSources: VideoSource[] = [
-    { title: "Video 1", src: "/Video1.mp4", type: "video/mp4" },
-    { title: "Video 2", src: "/video2.mp4", type: "video/mp4" },
-    { title: "Video 3", src: "/video3.mp4", type: "video/mp4" },
-    { title: "Video 4", src: "/video4.mp4", type: "video/mp4" },
-    { title: "Video 5", src: "/video5.mp4", type: "video/mp4" },
-    { title: "Video 6", src: "/video6.mp4", type: "video/mp4" }
+    { title: "Video 1", src: "assets/Video1.mp4", type: "video/mp4" },
+    { title: "Video 2", src: "assets/video2.mp4", type: "video/mp4" },
+    { title: "Video 3", src: "assets/video3.mp4", type: "video/mp4" },
+    { title: "Video 4", src: "assets/video4.mp4", type: "video/mp4" },
+    { title: "Video 5", src: "assets/video5.mp4", type: "video/mp4" },
+    { title: "Video 6", src: "assets/video6.mp4", type: "video/mp4" }
   ];
 
   const handleError = (error: any) => {
