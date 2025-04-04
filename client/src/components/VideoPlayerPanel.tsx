@@ -70,13 +70,43 @@ export default function VideoPlayerPanel() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video) {
+      console.log('Video ref not available');
+      return;
+    }
+
+    console.log('Loading video:', videoSources[currentVideoIndex]);
+    
+    const handleError = (e: ErrorEvent) => {
+      console.error('Video error:', e);
+    };
+
+    const handleLoadStart = () => {
+      console.log('Video load started');
+    };
+
+    const handleLoadedData = () => {
+      console.log('Video data loaded successfully');
+    };
+
+    video.addEventListener('error', handleError);
+    video.addEventListener('loadstart', handleLoadStart);
+    video.addEventListener('loadeddata', handleLoadedData);
 
     video.load();
     if (playing) {
-      video.play().catch(() => setPlaying(false));
+      video.play().catch((err) => {
+        console.error('Play error:', err);
+        setPlaying(false);
+      });
     }
-  }, [currentVideoIndex, playing]); // Ajouter playing à la liste des dépendances
+
+    return () => {
+      video.removeEventListener('error', handleError);
+      video.removeEventListener('loadstart', handleLoadStart);
+      video.removeEventListener('loadeddata', handleLoadedData);
+    };
+  }, [currentVideoIndex, playing, videoSources]); // Ajouter playing à la liste des dépendances
 
   const togglePlay = () => {
     if (!videoRef.current) return;
