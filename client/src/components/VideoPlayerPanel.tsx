@@ -49,7 +49,30 @@ export default function VideoPlayerPanel() {
           playing={playing}
           width="100%"
           height="100%"
-          style={{ position: 'absolute', top: 0, left: 0, objectFit: 'cover' }}
+          style={{ position: 'absolute', top: 0, left: 0 }}
+          width="100%"
+          height="100%"
+          config={{
+            file: {
+              forceVideo: true,
+              attributes: {
+                controlsList: 'nodownload',
+                crossOrigin: 'anonymous',
+                style: {
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }
+              }
+            },
+            youtube: {
+              playerVars: {
+                modestbranding: 1,
+                showinfo: 0,
+                rel: 0
+              }
+            }
+          }}
           onError={handleError}
           onEnded={handleEnded}
           controls={false}
