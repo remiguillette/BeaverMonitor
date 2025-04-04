@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useServerStatus, useSystemStatus, ServerInfo, SystemStatusInfo } from "@/hooks/useServerStatus";
 import { Server, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
@@ -156,7 +155,7 @@ export default function ServerMonitoringPanel() {
   const renderSystemStatus = () => {
     if (isLoadingSystemStatus) {
       return (
-        <div className="bg-[#1e1e1e] mt-4 p-4 rounded-lg border border-[#333333]">
+        <div className="bg-[#1e1e1e] mb-6 p-4 rounded-lg border border-[#333333]">
           <h3 className="text-xl font-medium mb-2">Status du système</h3>
           <div className="space-y-3">
             <Skeleton className="h-8 w-full" />
@@ -172,7 +171,7 @@ export default function ServerMonitoringPanel() {
 
     if (isSystemStatusError || !systemStatusData) {
       return (
-        <div className="bg-[#1e1e1e] mt-4 p-4 rounded-lg border border-[#333333]">
+        <div className="bg-[#1e1e1e] mb-6 p-4 rounded-lg border border-[#333333]">
           <h3 className="text-xl font-medium mb-2">Status du système</h3>
           <div className="text-red-500">Impossible de charger les données du système.</div>
         </div>
@@ -183,7 +182,7 @@ export default function ServerMonitoringPanel() {
     const ramPercentage = (ramAverage / ramTotal) * 100;
 
     return (
-      <div className="bg-[#1e1e1e] mt-4 p-4 rounded-lg border border-[#333333]">
+      <div className="bg-[#1e1e1e] mb-6 p-4 rounded-lg border border-[#333333]">
         <h3 className="text-xl font-medium mb-2">Status du système</h3>
         <div className="space-y-3">
           <div className="flex justify-between items-center">
