@@ -55,7 +55,9 @@ export default function VideoPlayerPanel() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             objectFit: 'cover',
-            objectPosition: 'center'
+            objectPosition: 'center center',
+            height: '390px',
+            width: '590px'
           }}
           width="100%"
           height="100%"
