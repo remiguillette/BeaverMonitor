@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import ReactPlayer from "react-player";
 import { Play, Pause } from "lucide-react";
@@ -14,8 +15,10 @@ export default function VideoPlayerPanel() {
   const [error, setError] = useState<string | null>(null);
 
   const videoSources: VideoSource[] = [
-    { title: "Video 1", src: "https://www.youtube.com/watch?v=lUTAH97Q0P8&t=3s&ab_channel=LTuney18", type: "video" },
-    { title: "Video 2", src: "https://www.youtube.com/watch?v=lUTAH97Q0P8&t=3s&ab_channel=LTuney18", type: "video" },
+    { title: "Video 1", src: "https://www.youtube.com/watch?v=lUTAH97Q0P8", type: "video" },
+    { title: "Video 2", src: "https://www.youtube.com/watch?v=JmsRbyCahbo", type: "video" },
+    { title: "Video 3", src: "https://www.youtube.com/watch?v=9TXMW8C46Es", type: "video" },
+    { title: "Video 4", src: "https://www.youtube.com/watch?v=dY6MckzSCIc", type: "video" },
   ];
 
   const handleError = (error: any) => {
@@ -25,7 +28,6 @@ export default function VideoPlayerPanel() {
   };
 
   const handleEnded = () => {
-    setPlaying(false);
     setCurrentVideoIndex((prev) => (prev + 1) % videoSources.length);
   };
 
@@ -46,6 +48,7 @@ export default function VideoPlayerPanel() {
         <ReactPlayer
           url={videoSources[currentVideoIndex].src}
           playing={playing}
+          volume={0.2}
           width="590px"
           height="390px"
           style={{
@@ -76,7 +79,7 @@ export default function VideoPlayerPanel() {
           onEnded={handleEnded}
           controls={false}
           playsinline
-          loop
+          loop={false}
         />
 
         <div
