@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
+import ReactPlayer from "react-player";
 import { Play, Pause } from "lucide-react";
 
 interface VideoSource {
@@ -11,7 +12,6 @@ export default function VideoPlayerPanel() {
   const [playing, setPlaying] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   const videoSources: VideoSource[] = [
     { title: "Video 1", src: "/Video1.mp4", type: "video/mp4" },
@@ -22,34 +22,19 @@ export default function VideoPlayerPanel() {
     { title: "Video 6", src: "/video6.mp4", type: "video/mp4" }
   ];
 
-  const handleVideoError = (e: Event) => {
-    const video = e.target as HTMLVideoElement;
-    setError(`Failed to load video: ${video.error?.message || 'Unknown error'}`);
+  const handleError = (error: any) => {
+    setError(`Failed to load video: ${error?.message || 'Unknown error'}`);
     setPlaying(false);
   };
 
-  const handleVideoEnded = () => {
+  const handleEnded = () => {
     setPlaying(false);
     setCurrentVideoIndex((prev) => (prev + 1) % videoSources.length);
   };
 
-  const togglePlay = async () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    try {
-      if (playing) {
-        await video.pause();
-        setPlaying(false);
-      } else {
-        setError(null);
-        await video.play();
-        setPlaying(true);
-      }
-    } catch (err) {
-      setError(`Playback error: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      setPlaying(false);
-    }
+  const togglePlay = () => {
+    setError(null);
+    setPlaying(!playing);
   };
 
   return (
@@ -61,12 +46,14 @@ export default function VideoPlayerPanel() {
       )}
 
       <div className="relative h-full">
-        <video 
-          ref={videoRef}
-          className="w-full h-full object-contain"
-          src={videoSources[currentVideoIndex].src}
-          onError={handleVideoError}
-          onEnded={handleVideoEnded}
+        <ReactPlayer
+          url={videoSources[currentVideoIndex].src}
+          playing={playing}
+          width="100%"
+          height="100%"
+          onError={handleError}
+          onEnded={handleEnded}
+          controls={false}
         />
 
         <div 
