@@ -16,32 +16,32 @@ export default function VideoPlayerPanel() {
   const videoSources: VideoSource[] = [
     {
       title: "Video 1",
-      src: "/attached_assets/Video1.mp4",
+      src: "/assets/Video1.mp4",
       type: "video/mp4"
     },
     {
-      title: "Video 2",
-      src: "/attached_assets/video2.mp4",
+      title: "Video 2", 
+      src: "/assets/video2.mp4",
       type: "video/mp4"
     },
     {
       title: "Video 3",
-      src: "/attached_assets/video3.mp4",
+      src: "/assets/video3.mp4", 
       type: "video/mp4"
     },
     {
       title: "Video 4",
-      src: "/attached_assets/video4.mp4",
+      src: "/assets/video4.mp4",
       type: "video/mp4"
     },
     {
-      title: "Video 5",
-      src: "/attached_assets/video5.mp4",
+      title: "Video 5", 
+      src: "/assets/video5.mp4",
       type: "video/mp4"
     },
     {
       title: "Video 6",
-      src: "/attached_assets/video6.mp4",
+      src: "/assets/video6.mp4",
       type: "video/mp4"
     }
   ];
