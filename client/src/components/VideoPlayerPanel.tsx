@@ -76,7 +76,7 @@ export default function VideoPlayerPanel() {
     if (playing) {
       video.play().catch(() => setPlaying(false));
     }
-  }, [currentVideoIndex]);
+  }, [currentVideoIndex, playing]); // Ajouter playing à la liste des dépendances
 
   const togglePlay = () => {
     if (!videoRef.current) return;
