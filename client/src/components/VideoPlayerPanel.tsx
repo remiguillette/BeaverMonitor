@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Play } from "lucide-react";
 
@@ -9,18 +10,41 @@ export interface VideoSource {
 
 export default function VideoPlayerPanel() {
   const [playing, setPlaying] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Sample video sources
   const videoSources: VideoSource[] = [
     {
-      title: "Gardiner Expressway - Caméra en direct",
-      src: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      title: "Video 1",
+      src: "/attached_assets/Video1.mp4",
+      type: "video/mp4"
+    },
+    {
+      title: "Video 2",
+      src: "/attached_assets/video2.mp4",
+      type: "video/mp4"
+    },
+    {
+      title: "Video 3",
+      src: "/attached_assets/video3.mp4",
+      type: "video/mp4"
+    },
+    {
+      title: "Video 4",
+      src: "/attached_assets/video4.mp4",
+      type: "video/mp4"
+    },
+    {
+      title: "Video 5",
+      src: "/attached_assets/video5.mp4",
+      type: "video/mp4"
+    },
+    {
+      title: "Video 6",
+      src: "/attached_assets/video6.mp4",
       type: "video/mp4"
     }
   ];
-
-  const [currentSource] = useState<VideoSource>(videoSources[0]);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -38,13 +62,10 @@ export default function VideoPlayerPanel() {
     if (!video) return;
 
     const handleEnded = () => {
-      // Loop the video when it ends
-      if (video) {
-        video.currentTime = 0;
-        video.play()
-          .then(() => setPlaying(true))
-          .catch(() => setPlaying(false));
-      }
+      // Move to next video when current one ends
+      setCurrentVideoIndex((prevIndex) => 
+        prevIndex === videoSources.length - 1 ? 0 : prevIndex + 1
+      );
     };
 
     video.addEventListener('ended', handleEnded);
@@ -52,7 +73,15 @@ export default function VideoPlayerPanel() {
     return () => {
       video.removeEventListener('ended', handleEnded);
     };
-  }, []);
+  }, [videoSources.length]);
+
+  useEffect(() => {
+    // When current video index changes, start playing the new video
+    if (videoRef.current && playing) {
+      videoRef.current.play()
+        .catch(() => setPlaying(false));
+    }
+  }, [currentVideoIndex]);
 
   return (
     <div className="bg-[#1e1e1e] w-full h-auto rounded-lg overflow-hidden border border-[#333333]">
@@ -62,9 +91,8 @@ export default function VideoPlayerPanel() {
           className="w-full h-auto block"
           poster="/assets/video-poster.svg"
           playsInline
-          loop
         >
-          <source src={currentSource.src} type={currentSource.type} />
+          <source src={videoSources[currentVideoIndex].src} type={videoSources[currentVideoIndex].type} />
           Votre navigateur ne prend pas en charge la lecture vidéo.
         </video>
 
