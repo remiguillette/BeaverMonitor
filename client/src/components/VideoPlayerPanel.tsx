@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
-import { Play } from "lucide-react";
+import { Play, Pause } from "lucide-react";
 
 export interface VideoSource {
   title: string;
@@ -46,42 +46,48 @@ export default function VideoPlayerPanel() {
     }
   ];
 
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (playing) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setPlaying(!playing);
-    }
-  };
-
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
+    const handlePlay = () => setPlaying(true);
+    const handlePause = () => setPlaying(false);
     const handleEnded = () => {
-      // Move to next video when current one ends
       setCurrentVideoIndex((prevIndex) => 
         prevIndex === videoSources.length - 1 ? 0 : prevIndex + 1
       );
     };
 
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
     video.addEventListener('ended', handleEnded);
 
     return () => {
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
       video.removeEventListener('ended', handleEnded);
     };
   }, [videoSources.length]);
 
   useEffect(() => {
-    // When current video index changes, start playing the new video
-    if (videoRef.current && playing) {
-      videoRef.current.play()
-        .catch(() => setPlaying(false));
+    const video = videoRef.current;
+    if (!video) return;
+    
+    video.load();
+    if (playing) {
+      video.play().catch(() => setPlaying(false));
     }
   }, [currentVideoIndex]);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    
+    if (playing) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play().catch(() => setPlaying(false));
+    }
+  };
 
   return (
     <div className="bg-[#1e1e1e] w-full h-auto rounded-lg overflow-hidden border border-[#333333]">
@@ -93,10 +99,9 @@ export default function VideoPlayerPanel() {
           playsInline
         >
           <source src={videoSources[currentVideoIndex].src} type={videoSources[currentVideoIndex].type} />
-          Votre navigateur ne prend pas en charge la lecture vidéo.
+          Your browser does not support video playback.
         </video>
 
-        {/* Play/Pause overlay */}
         <div 
           className="absolute inset-0 flex items-center justify-center cursor-pointer group"
           onClick={togglePlay}
