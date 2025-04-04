@@ -212,7 +212,7 @@ export default function ServerMonitoringPanel() {
   };
 
   return (
-    <div className="bg-[#1e1e1e] m-0 p-4 flex flex-col gap-4 border border-[#333333] rounded-lg overflow-y-auto" style={{ border: '1.111px solid #333333', padding: '16px' }}>
+    <div className="bg-[#1e1e1e] m-0 p-30 flex flex-col gap-2 border border-[#333333] rounded-lg overflow-y-auto" style={{ border: '1.111px solid #333333', padding: '16px' }}>
       <h2 className="text-2xl text-white font-bold flex items-center">
         <Server className="text-primary mr-2" />
         Status Serveur
