@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useServerStatus, useSystemStatus, ServerInfo, SystemStatusInfo } from "@/hooks/useServerStatus";
 import { Server, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
@@ -108,7 +109,7 @@ export default function ServerMonitoringPanel() {
           setCurrentIndex((prevIndex) => 
             (prevIndex + 4) >= serverStatusData.length ? 0 : prevIndex + 4
           );
-        }, 15000); // Change every 15 seconds
+        }, 15000);
 
         return () => clearInterval(interval);
       }
@@ -134,13 +135,12 @@ export default function ServerMonitoringPanel() {
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4 min-h-[240px]">
           {visibleServers.map((server) => renderServerCard(server))}
-          {/* Add empty placeholder cards if needed */}
           {Array.from({ length: Math.max(0, 4 - visibleServers.length) }).map((_, i) => (
             <div key={`placeholder-${i}`} className="bg-[#1e1e1e] p-4 rounded-lg border border-[#333333] opacity-0" />
           ))}
         </div>
         <div className="flex justify-center space-x-1">
-          {Array.from({ length: Math.ceil(serverStatusData.length / 4) }).map((_, i) => (
+          {Array.from({ length: Math.ceil((serverStatusData?.length || 0) / 4) }).map((_, i) => (
             <div
               key={i}
               className={`h-1.5 w-4 rounded-full transition-all ${
@@ -156,8 +156,8 @@ export default function ServerMonitoringPanel() {
   const renderSystemStatus = () => {
     if (isLoadingSystemStatus) {
       return (
-        <div className="bg-[#1e1e1e] mt-6 p-5 rounded-lg border border-[#333333]">
-          <h3 className="text-2xl font-medium mb-4">Status du système</h3>
+        <div className="bg-[#1e1e1e] mt-4 p-4 rounded-lg border border-[#333333]">
+          <h3 className="text-xl font-medium mb-2">Status du système</h3>
           <div className="space-y-3">
             <Skeleton className="h-8 w-full" />
             <Skeleton className="h-4 w-full" />
@@ -172,14 +172,14 @@ export default function ServerMonitoringPanel() {
 
     if (isSystemStatusError || !systemStatusData) {
       return (
-        <div className="bg-[#1e1e1e] mt-6 p-5 rounded-lg border border-[#333333]">
-          <h3 className="text-2xl font-medium mb-4">Status du système</h3>
+        <div className="bg-[#1e1e1e] mt-4 p-4 rounded-lg border border-[#333333]">
+          <h3 className="text-xl font-medium mb-2">Status du système</h3>
           <div className="text-red-500">Impossible de charger les données du système.</div>
         </div>
       );
     }
 
-    const { cpuAverage, ramAverage, ramTotal, uptime, lastUpdated } = systemStatusData as SystemStatusInfo;
+    const { cpuAverage, ramAverage, ramTotal, uptime, lastUpdated } = systemStatusData;
     const ramPercentage = (ramAverage / ramTotal) * 100;
 
     return (
@@ -213,7 +213,7 @@ export default function ServerMonitoringPanel() {
   };
 
   return (
-    <div className="bg-[#1e1e1e] p-4 flex flex-col overflow-y-auto border border-[#333333] rounded-lg">
+    <div className="bg-[#1e1e1e] p-4 flex flex-col h-full overflow-y-auto border border-[#333333] rounded-lg">
       <h2 className="text-2xl text-white font-bold mb-3 flex items-center">
         <Server className="text-primary mr-2" />
         Status Serveur
