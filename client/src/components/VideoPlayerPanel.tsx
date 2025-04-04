@@ -76,6 +76,7 @@ export default function VideoPlayerPanel() {
           onEnded={handleEnded}
           controls={false}
           playsinline
+          loop
         />
 
         <div
