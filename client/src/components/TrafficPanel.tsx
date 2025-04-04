@@ -131,7 +131,7 @@ export default function TrafficPanel() {
         
         <div 
           ref={autoScrollContainerRef}
-          className="space-y-3 max-h-[220px] overflow-y-auto pr-2 traffic-incidents"
+          className="space-y-3 h-[220px] overflow-y-auto pr-2 traffic-incidents"
         >
           {data.incidents && data.incidents.length > 0 ? (
             data.incidents.map((incident, index) => (
@@ -170,8 +170,16 @@ export default function TrafficPanel() {
 
   const { data, displayName } = getCurrentRegionData();
   
+  useEffect(() => {
+    // Prevent page scroll during transitions
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
   return (
-    <div className="bg-[#1e1e1e] p-4 flex flex-col border border-[#333333] rounded-lg h-full">
+    <div className="bg-[#1e1e1e] p-4 flex flex-col border border-[#333333] rounded-lg h-full relative">
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-2xl text-white font-bold flex items-center">
           <Car className="text-primary mr-2" />
