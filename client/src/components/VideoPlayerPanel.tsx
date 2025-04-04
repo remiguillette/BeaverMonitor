@@ -90,13 +90,14 @@ export default function VideoPlayerPanel() {
   };
 
   return (
-    <div className="bg-[#1e1e1e] w-full h-auto rounded-lg overflow-hidden border border-[#333333]">
-      <div className="relative">
+    <div className="bg-[#1e1e1e] w-full h-full rounded-lg overflow-hidden border border-[#333333]">
+      <div className="relative h-full">
         <video 
           ref={videoRef} 
-          className="w-full h-auto block"
-          poster="/assets/video-poster.svg"
+          className="w-full h-full object-contain"
+          poster="assets/video-poster.svg"
           playsInline
+          controls
         >
           <source src={videoSources[currentVideoIndex].src} type={videoSources[currentVideoIndex].type} />
           Your browser does not support video playback.
