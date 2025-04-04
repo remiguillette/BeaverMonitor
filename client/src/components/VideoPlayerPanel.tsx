@@ -79,14 +79,22 @@ export default function VideoPlayerPanel() {
     
     const handleError = (e: ErrorEvent) => {
       console.error('Video error:', e);
+      setPlaying(false);
     };
 
     const handleLoadStart = () => {
       console.log('Video load started');
+      setPlaying(false);
     };
 
     const handleLoadedData = () => {
       console.log('Video data loaded successfully');
+      if (playing) {
+        video.play().catch((err) => {
+          console.error('Play error:', err);
+          setPlaying(false);
+        });
+      }
     };
 
     video.addEventListener('error', handleError);
@@ -94,12 +102,6 @@ export default function VideoPlayerPanel() {
     video.addEventListener('loadeddata', handleLoadedData);
 
     video.load();
-    if (playing) {
-      video.play().catch((err) => {
-        console.error('Play error:', err);
-        setPlaying(false);
-      });
-    }
 
     return () => {
       video.removeEventListener('error', handleError);
