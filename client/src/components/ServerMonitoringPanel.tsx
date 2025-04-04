@@ -213,8 +213,8 @@ export default function ServerMonitoringPanel() {
   };
 
   return (
-    <div className="bg-[#1e1e1e] p-4 flex flex-col h-full overflow-y-auto border border-[#333333] rounded-lg">
-      <h2 className="text-2xl text-white font-bold mb-3 flex items-center">
+    <div className="bg-[#1e1e1e] h-full p-4 flex flex-col gap-4 border border-[#333333] rounded-lg overflow-y-auto">
+      <h2 className="text-2xl text-white font-bold flex items-center">
         <Server className="text-primary mr-2" />
         Status Serveur
       </h2>
