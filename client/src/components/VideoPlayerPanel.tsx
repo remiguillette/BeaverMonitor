@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Play, Pause } from "lucide-react";
 
@@ -72,7 +71,7 @@ export default function VideoPlayerPanel() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    
+
     video.load();
     if (playing) {
       video.play().catch(() => setPlaying(false));
@@ -81,7 +80,7 @@ export default function VideoPlayerPanel() {
 
   const togglePlay = () => {
     if (!videoRef.current) return;
-    
+
     if (playing) {
       videoRef.current.pause();
     } else {
