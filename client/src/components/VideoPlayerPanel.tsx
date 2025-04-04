@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import ReactPlayer from "react-player";
 import { Play, Pause } from "lucide-react";
@@ -15,8 +14,8 @@ export default function VideoPlayerPanel() {
   const [error, setError] = useState<string | null>(null);
 
   const videoSources: VideoSource[] = [
-    { title: "Video 1", src: "https://www.youtube.com/watch?v=lUTAH97Q0P8", type: "video" },
-    { title: "Video 2", src: "https://www.youtube.com/watch?v=lUTAH97Q0P8", type: "video" }
+    { title: "Video 1", src: "https://www.youtube.com/watch?v=lUTAH97Q0P8&t=3s&ab_channel=LTuney18", type: "video" },
+    { title: "Video 2", src: "https://www.youtube.com/watch?v=lUTAH97Q0P8&t=3s&ab_channel=LTuney18", type: "video" },
   ];
 
   const handleError = (error: any) => {
@@ -47,57 +46,39 @@ export default function VideoPlayerPanel() {
         <ReactPlayer
           url={videoSources[currentVideoIndex].src}
           playing={playing}
-          width="100%"
-          height="100%"
-          style={{ 
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            objectFit: 'cover',
-            objectPosition: 'center center',
-            height: '390px',
-            width: '590px'
+          width="590px"
+          height="390px"
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            objectFit: "cover",
+            objectPosition: "center center",
           }}
-          width="100%"
-          height="100%"
           config={{
             file: {
               forceVideo: true,
               attributes: {
-                controlsList: 'nodownload',
-                crossOrigin: 'anonymous',
-                style: {
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover'
-                }
-              }
+                controlsList: "nodownload",
+                crossOrigin: "anonymous",
+              },
             },
             youtube: {
               playerVars: {
                 modestbranding: 1,
                 showinfo: 0,
-                rel: 0
-              }
-            }
+                rel: 0,
+              },
+            },
           }}
           onError={handleError}
           onEnded={handleEnded}
           controls={false}
           playsinline
-          config={{
-            file: {
-              forceVideo: true,
-              attributes: {
-                controlsList: 'nodownload',
-                crossOrigin: 'anonymous'
-              }
-            }
-          }}
         />
 
-        <div 
+        <div
           className="absolute inset-0 flex items-center justify-center cursor-pointer"
           onClick={togglePlay}
         >
