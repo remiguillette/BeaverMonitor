@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import ReactPlayer from "react-player";
 import { Play, Pause } from "lucide-react";
@@ -23,7 +24,9 @@ export default function VideoPlayerPanel() {
   ];
 
   const handleError = (error: any) => {
-    setError(`Failed to load video: ${error?.message || 'Unknown error'}`);
+    console.error("Video error:", error);
+    const errorMessage = error?.message || "Failed to load video";
+    setError(`${errorMessage}. Please check if the video file exists.`);
     setPlaying(false);
   };
 
@@ -54,6 +57,14 @@ export default function VideoPlayerPanel() {
           onError={handleError}
           onEnded={handleEnded}
           controls={false}
+          playsinline
+          config={{
+            file: {
+              attributes: {
+                crossOrigin: "anonymous"
+              }
+            }
+          }}
         />
 
         <div 
